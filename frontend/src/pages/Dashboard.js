@@ -90,7 +90,7 @@ export default function Dashboard() {
         totalWaste += weightInKg;
 
         // Determine factor based on material type
-        const typeLower = item.type.toLowerCase();
+        const typeLower = (item.type || item.wasteType || "other").toLowerCase();
         let factor = co2Factors.other;
         
         for (const [key, val] of Object.entries(co2Factors)) {
@@ -144,8 +144,8 @@ export default function Dashboard() {
     }
     
     const filtered = items.filter(item => 
-      item.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.location.toLowerCase().includes(searchTerm.toLowerCase())
+      (item.type || item.wasteType || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (item.location || item.loc || "").toLowerCase().includes(searchTerm.toLowerCase())
     );
     
     setResults(filtered);
