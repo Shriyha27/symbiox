@@ -150,9 +150,9 @@ export default function Sales() {
   const isMatched = (nearest) => nearest && nearest !== "N/A" && nearest !== "Matching…";
 
   return (
-    <div style={{ display: "flex" }}>
+    <div className="dashboard-container">
       <Sidebar />
-      <div className="aw-page" style={{ flex: 1, marginLeft: "250px", flexDirection: "column", justifyContent: "flex-start", paddingTop: "80px" }}>
+      <div className="main-content">
         <div className="aw-blob aw-blob--1" />
         <div className="aw-blob aw-blob--2" />
 

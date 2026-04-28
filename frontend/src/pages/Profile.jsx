@@ -65,9 +65,9 @@ export default function Profile() {
     : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
 
   return (
-    <div style={{ display: 'flex' }}>
+    <div className="dashboard-container">
       <Sidebar />
-      <div className="aw-page" style={{ flex: 1, marginLeft: '250px', flexDirection: 'column', justifyContent: 'flex-start', padding: '80px 40px' }}>
+      <div className="main-content">
         <div className="aw-blob aw-blob--1" />
         <div className="aw-blob aw-blob--2" />
 

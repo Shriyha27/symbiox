@@ -76,9 +76,9 @@ export default function Analytics() {
   const cars = (stats.co2 / 4600).toFixed(1); // avg car emits 4600 kg/year
 
   return (
-    <div style={{ display: "flex" }}>
+    <div className="dashboard-container">
       <Sidebar />
-      <div className="aw-page" style={{ flex: 1, marginLeft: "250px", padding: "80px 40px", display: "block" }}>
+      <div className="main-content">
         <div className="aw-blob aw-blob--1" />
         <div className="aw-blob aw-blob--2" />
 
@@ -88,7 +88,7 @@ export default function Analytics() {
             <div className="aw-badge" style={{ marginBottom: "12px" }}>
               <span className="aw-badge__dot" /> Sustainability Metrics
             </div>
-            <h2 style={{ fontSize: "32px", margin: 0, color: "#fff", fontWeight: 700 }}>
+            <h2 className="analytics-title">
               Sustainability <span style={{ color: "#22c55e" }}>Analytics</span>
             </h2>
             <p style={{ color: "#94a3b8", marginTop: "8px", fontSize: "14px" }}>
@@ -97,7 +97,7 @@ export default function Analytics() {
           </div>
 
           {/* Stat Cards */}
-          <div style={{ display: "flex", gap: "24px", marginBottom: "24px" }}>
+          <div className="cards">
             {/* CO2 Card */}
             <div
               className="card stagger-1"

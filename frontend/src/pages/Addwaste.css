@@ -854,3 +854,44 @@
   font-size: 13px;
 }
 
+
+/* Responsiveness */
+@media screen and (max-width: 768px) {
+  .aw-card {
+    padding: 32px 24px 24px;
+    border-radius: 20px;
+  }
+  .aw-title {
+    font-size: 28px;
+  }
+  .aw-layout-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .aw-page {
+    padding-top: 80px; /* Space for mobile menu button */
+  }
+  .sales-modal {
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .aw-split-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .aw-input--left {
+    border-radius: 12px !important;
+  }
+  .aw-unit-select {
+    width: 100%;
+    border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px !important;
+  }
+  .aw-title {
+    font-size: 24px;
+  }
+}

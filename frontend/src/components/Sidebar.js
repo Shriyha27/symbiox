@@ -44,13 +44,57 @@ export default function Sidebar() {
     localStorage.setItem(notifKey, JSON.stringify(updated));
   };
 
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   const handleLogout = () => {
     localStorage.clear();
     window.location.href = "/";
   };
 
   return (
-    <div className="sidebar">
+    <>
+      {/* Mobile Toggle Button */}
+      <button 
+        className="mobile-menu-btn"
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        style={{
+          display: "none",
+          position: "fixed",
+          top: "20px",
+          left: "20px",
+          zIndex: 1001,
+          background: "rgba(34, 197, 94, 0.9)",
+          border: "none",
+          color: "white",
+          width: "44px",
+          height: "44px",
+          borderRadius: "12px",
+          fontSize: "24px",
+          cursor: "pointer",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.3)"
+        }}
+      >
+        {isMobileMenuOpen ? "×" : "☰"}
+      </button>
+
+      {/* Overlay for mobile */}
+      {isMobileMenuOpen && (
+        <div 
+          onClick={() => setIsMobileMenuOpen(false)}
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: "rgba(0,0,0,0.5)",
+            backdropFilter: "blur(4px)",
+            zIndex: 99
+          }}
+        />
+      )}
+
+      <div className={`sidebar ${isMobileMenuOpen ? "mobile-open" : ""}`}>
       {/* Logo */}
       <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
         <img src={logo} alt="Symbiox Logo" style={{ width: "40px", height: "40px", objectFit: "contain" }} />
@@ -182,5 +226,6 @@ export default function Sidebar() {
         )}
       </div>
     </div>
+    </>
   );
 }

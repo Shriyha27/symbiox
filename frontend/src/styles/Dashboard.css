@@ -314,3 +314,101 @@
   background: rgba(255, 255, 255, 0.2);
   transform: translateY(-2px);
 }
+
+/* Responsive Design */
+@media screen and (max-width: 1024px) {
+  .sidebar {
+    width: 80px;
+    padding: 30px 10px;
+  }
+  .sidebar h2, .sidebar li span:not(.ai-icon) {
+    display: none;
+  }
+  .main-content {
+    margin-left: 80px;
+    width: calc(100% - 80px);
+  }
+  .cards {
+    flex-wrap: wrap;
+  }
+  .card {
+    min-width: 200px;
+  }
+}
+
+.analytics-title {
+  font-size: 32px;
+  margin: 0;
+  color: #fff;
+  font-weight: 700;
+}
+
+@media screen and (max-width: 768px) {
+  .mobile-menu-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+  .sidebar {
+    display: flex;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    width: 280px;
+    z-index: 1000;
+  }
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+    padding: 80px 20px 40px; /* Space for the floating button */
+  }
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .header-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+  .search-container {
+    width: 100%;
+  }
+  .search-input {
+    flex: 1;
+    width: auto;
+  }
+  .cards {
+    gap: 16px;
+  }
+  .card {
+    padding: 20px;
+    min-width: 100%;
+  }
+  .card h3 {
+    font-size: 24px;
+  }
+  .recent-searches-header h3 {
+    font-size: 20px;
+  }
+  .search-card {
+    flex: 0 0 100%;
+    min-width: 0;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .dashboard-header h2 {
+    font-size: 26px;
+  }
+  .action-buttons {
+    width: 100%;
+    flex-direction: column;
+  }
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+}

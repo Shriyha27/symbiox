@@ -141,9 +141,9 @@ export default function Order() {
   };
 
   return (
-    <div style={{ display: 'flex' }}>
+    <div className="dashboard-container">
       <Sidebar />
-      <div className="aw-page" style={{ flex: 1, marginLeft: '250px', padding: '80px 40px', display: 'block' }}>
+      <div className="main-content">
         {/* Ambient blobs */}
         <div className="aw-blob aw-blob--1" />
         <div className="aw-blob aw-blob--2" />
