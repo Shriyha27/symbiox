@@ -217,7 +217,7 @@ export default function Dashboard() {
                   alt={item.type} 
                   onError={(e) => {
                     e.target.onerror = null; 
-                    e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(item.type)}&background=1e293b&color=22c55e&size=400&bold=true`;
+                    e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(item.type || item.wasteType || 'Waste')}&background=1e293b&color=22c55e&size=400&bold=true`;
                   }}
                 />
                 <div className="search-card-info">
