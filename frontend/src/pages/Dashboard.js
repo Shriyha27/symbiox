@@ -3,6 +3,15 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import "../styles/Dashboard.css";
 
+const DEFAULT_ITEMS = [
+  { id: 1, type: "Copper Scrap", image: "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?auto=format&fit=crop&w=600&q=80", location: "Mumbai", qty: "2.4 tonnes", price: "$4,500" },
+  { id: 2, type: "Industrial Plastic", image: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&q=80", location: "Pune", qty: "850 kg", price: "$1,200" },
+  { id: 3, type: "Electronic PCBS", image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80", location: "Bangalore", qty: "120 units", price: "$2,800" },
+  { id: 4, type: "Aluminum Cans", image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80", location: "Surat", qty: "1.5 tonnes", price: "$3,100" },
+  { id: 5, type: "Glass Cullet", image: "https://images.unsplash.com/photo-1536939459926-301728717817?auto=format&fit=crop&w=600&q=80", location: "Chennai", qty: "2,000 kg", price: "$900" },
+  { id: 6, type: "Cardboard Bales", image: "https://images.unsplash.com/photo-1603484477859-abe6a73f9366?auto=format&fit=crop&w=600&q=80", location: "Delhi", qty: "3.2 tonnes", price: "$1,800" },
+];
+
 export default function Dashboard() {
   const navigate = useNavigate();
   const [stats, setStats] = useState({ waste: 0, revenue: 0, co2: 0 });
@@ -11,16 +20,6 @@ export default function Dashboard() {
   const [items, setItems] = useState([]);
   const [results, setResults] = useState([]);
   const userEmail = localStorage.getItem("userEmail") || "guest";
-
-  const defaultItems = [
-    { id: 1, type: "Copper Scrap", image: "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?auto=format&fit=crop&w=600&q=80", location: "Mumbai", qty: "2.4 tonnes", price: "$4,500" },
-    { id: 2, type: "Industrial Plastic", image: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&q=80", location: "Pune", qty: "850 kg", price: "$1,200" },
-    { id: 3, type: "Electronic PCBS", image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80", location: "Bangalore", qty: "120 units", price: "$2,800" },
-    { id: 4, type: "Aluminum Cans", image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80", location: "Surat", qty: "1.5 tonnes", price: "$3,100" },
-    { id: 5, type: "Glass Cullet", image: "https://images.unsplash.com/photo-1536939459926-301728717817?auto=format&fit=crop&w=600&q=80", location: "Chennai", qty: "2,000 kg", price: "$900" },
-    { id: 6, type: "Cardboard Bales", image: "https://images.unsplash.com/photo-1603484477859-abe6a73f9366?auto=format&fit=crop&w=600&q=80", location: "Delhi", qty: "3.2 tonnes", price: "$1,800" },
-  ];
-
   useEffect(() => {
     // Waste type → image mapping
     const imageMap = {
@@ -58,7 +57,7 @@ export default function Dashboard() {
       location: item.location || item.loc || "N/A"
     }));
 
-    const allItems = [...normalizedListings, ...defaultItems];
+    const allItems = [...normalizedListings, ...DEFAULT_ITEMS];
     setItems(allItems);
 
     // CO2 Factors (kg saved per kg of material)

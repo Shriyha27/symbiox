@@ -99,7 +99,7 @@ export default function Sales() {
     }, 5000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [sales, storageKey, notifKey]);
 
   const handleSell = (id, nearest) => {
     const companyName = nearest.split("(")[0].trim();

@@ -14,7 +14,7 @@ export default function Order() {
   const userEmail = localStorage.getItem("userEmail") || "guest";
   const orderKey = `${userEmail}_orders`;
 
-  const [orders, setOrders] = useState(() => {
+  const [orders] = useState(() => {
     const saved = JSON.parse(localStorage.getItem(orderKey) || "[]");
     if (saved.length > 0) return saved;
 
@@ -30,7 +30,6 @@ export default function Order() {
   const [quantity, setQuantity] = useState("");
   const [unit, setUnit] = useState("kg");
   const [locationText, setLocationText] = useState("");
-  const [selectedLocation, setSelectedLocation] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
@@ -51,7 +50,6 @@ export default function Order() {
   const handleLocationChange = (e) => {
     const val = e.target.value;
     setLocationText(val);
-    setSelectedLocation("");
     clearTimeout(debounceRef.current);
     if (val.trim().length < 3) { setSuggestions([]); return; }
     debounceRef.current = setTimeout(() => fetchLocations(val), 380);
@@ -75,13 +73,11 @@ export default function Order() {
 
   const selectLocation = (full, display) => {
     setLocationText(full);
-    setSelectedLocation(full);
     setSuggestions([]);
   };
 
   const clearLocation = () => {
     setLocationText("");
-    setSelectedLocation("");
     setSuggestions([]);
   };
 

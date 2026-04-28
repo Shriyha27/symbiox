@@ -26,7 +26,6 @@ export default function AddWaste() {
   const [price, setPrice] = useState("");
   const [currency, setCurrency] = useState("INR");
   const [locationText, setLocationText] = useState("");
-  const [selectedLocation, setSelectedLocation] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
@@ -59,7 +58,6 @@ export default function AddWaste() {
   const handleLocationChange = (e) => {
     const val = e.target.value;
     setLocationText(val);
-    setSelectedLocation("");
     clearTimeout(debounceRef.current);
     if (val.trim().length < 3) { setSuggestions([]); return; }
     debounceRef.current = setTimeout(() => fetchLocations(val), 380);
@@ -83,13 +81,11 @@ export default function AddWaste() {
 
   const selectLocation = (full, display) => {
     setLocationText(full);
-    setSelectedLocation(full);
     setSuggestions([]);
   };
 
   const clearLocation = () => {
     setLocationText("");
-    setSelectedLocation("");
     setSuggestions([]);
   };
 
