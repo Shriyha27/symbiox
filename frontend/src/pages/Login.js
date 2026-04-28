@@ -50,7 +50,21 @@ export default function Login() {
 
       window.location.href = "/dashboard";
     } catch (err) {
-      alert(err.response?.data || "Error occurred");
+      if (err.message === "Network Error") {
+        console.warn("Backend unreachable. Entering Demo Mode for preview.");
+        // Simulate a successful login for demo purposes on mobile/deployment
+        localStorage.setItem("token", "demo-token");
+        localStorage.setItem("userEmail", email || "demo@symbiox.com");
+        const profileKey = `${email || "demo@symbiox.com"}_profile`;
+        const demoProfile = { companyName: company || "Symbiox Demo Corp", email: email || "demo@symbiox.com" };
+        localStorage.setItem(profileKey, JSON.stringify(demoProfile));
+        localStorage.setItem("userName", demoProfile.companyName);
+        
+        alert("🚀 Backend unreachable. Entering Demo Mode for preview!");
+        window.location.href = "/dashboard";
+      } else {
+        alert(err.response?.data || "Error occurred during login");
+      }
     }
 
     setLoading(false);

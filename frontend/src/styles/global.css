@@ -437,3 +437,20 @@ body {
   color: white;
   cursor: pointer;
 }
+
+/* Responsive Login */
+@media screen and (max-width: 480px) {
+  .login-card {
+    padding: 30px 20px;
+    max-width: 100%;
+  }
+  .login-title {
+    font-size: 26px;
+  }
+  .toggle-container, .auth-form-container {
+    max-width: 100%;
+  }
+  .orb {
+    display: none; /* Hide expensive orbs on small mobile screens */
+  }
+}
