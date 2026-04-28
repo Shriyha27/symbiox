@@ -6,14 +6,20 @@ import "./Addwaste.css";
 export default function Profile() {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
-  const [profile, setProfile] = useState({
-    companyName: localStorage.getItem("companyName") || "",
-    industry: localStorage.getItem("industry") || "",
-    location: localStorage.getItem("location") || "",
-    website: localStorage.getItem("website") || "",
-    bio: localStorage.getItem("bio") || "",
-    email: localStorage.getItem("userEmail") || "",
-    avatarUrl: localStorage.getItem("userAvatar") || ""
+  const userEmail = localStorage.getItem("userEmail") || "guest";
+  const profileKey = `${userEmail}_profile`;
+
+  const [profile, setProfile] = useState(() => {
+    const saved = JSON.parse(localStorage.getItem(profileKey) || "{}");
+    return {
+      companyName: saved.companyName || "",
+      industry: saved.industry || "",
+      location: saved.location || "",
+      website: saved.website || "",
+      bio: saved.bio || "",
+      email: saved.email || userEmail,
+      avatarUrl: saved.avatarUrl || ""
+    };
   });
 
   const [toast, setToast] = useState({ show: false, message: "" });
@@ -39,11 +45,13 @@ export default function Profile() {
   };
 
   const handleSave = () => {
-    Object.keys(profile).forEach(key => {
-      localStorage.setItem(key, profile[key]);
-    });
+    localStorage.setItem(profileKey, JSON.stringify(profile));
+    
+    // Also update legacy global keys for sidebar compatibility if needed, 
+    // but better to update sidebar to use the scoped data.
     localStorage.setItem("userName", profile.companyName || profile.email);
     localStorage.setItem("userAvatar", profile.avatarUrl);
+    localStorage.setItem("companyName", profile.companyName);
     
     setToast({ show: true, message: "✅ Profile updated successfully!" });
     setTimeout(() => {
@@ -65,16 +73,16 @@ export default function Profile() {
 
         <div className="aw-container">
           <div className="aw-layout-grid">
-            <div className="aw-card" style={{ margin: 0, animationDelay: '0.1s' }}>
-              <div className="aw-badge">
+            <div className="aw-card stagger-1" style={{ margin: 0 }}>
+              <div className="aw-badge stagger-1">
                 <span className="aw-badge__dot" />
                 User Settings
               </div>
 
-              <h2 className="aw-title">
+              <h2 className="aw-title stagger-1">
                 Update <span className="aw-title--accent">Profile</span>
               </h2>
-              <p className="aw-subtitle">Complete your business profile to build trust</p>
+              <p className="aw-subtitle stagger-1">Complete your business profile to build trust</p>
 
               {/* Profile Picture Section */}
               <div className="aw-field">
@@ -146,6 +154,21 @@ export default function Profile() {
               </div>
 
               <div className="aw-field">
+                <label className="aw-label">Contact Email</label>
+                <div className="aw-input-wrap">
+                  <span className="aw-icon">✉️</span>
+                  <input
+                    className="aw-input"
+                    type="email"
+                    name="email"
+                    placeholder="Enter contact email"
+                    value={profile.email}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+
+              <div className="aw-field">
                 <label className="aw-label">Location</label>
                 <div className="aw-input-wrap">
                   <span className="aw-icon">📍</span>
@@ -194,7 +217,7 @@ export default function Profile() {
               </button>
             </div>
 
-            <div className="aw-history-section" style={{ marginTop: 0, animationDelay: '0.3s' }}>
+            <div className="aw-history-section stagger-2" style={{ marginTop: 0 }}>
               <div style={{ background: 'rgba(255, 255, 255, 0.03)', backdropFilter: 'blur(20px)', borderRadius: '24px', padding: '40px', border: '1px solid rgba(255, 255, 255, 0.08)', textAlign: 'center' }}>
                 <div style={{ position: 'relative', width: '120px', height: '120px', margin: '0 auto 24px' }}>
                   <img

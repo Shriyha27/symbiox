@@ -26,6 +26,7 @@ export default function Order() {
   });
 
   const [materialType, setMaterialType] = useState("");
+  const [otherMaterialType, setOtherMaterialType] = useState("");
   const [quantity, setQuantity] = useState("");
   const [unit, setUnit] = useState("kg");
   const [locationText, setLocationText] = useState("");
@@ -90,14 +91,15 @@ export default function Order() {
   };
 
   const handleSubmit = () => {
-    if (!materialType || !quantity || !locationText.trim()) {
+    const finalMaterialType = materialType === "Other" ? otherMaterialType.trim() : materialType;
+    if (!materialType || (materialType === "Other" && !otherMaterialType.trim()) || !quantity || !locationText.trim()) {
       showToast("⚠️ Please fill in all fields", "error");
       return;
     }
 
     const newOrder = {
       orderId: `ORD-${Math.floor(Math.random() * 9000) + 1000}`,
-      type: materialType,
+      type: finalMaterialType,
       qty: `${quantity} ${unit}`,
       location: locationText.split(',')[0],
       date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }),
@@ -106,7 +108,34 @@ export default function Order() {
 
     const currentOrders = JSON.parse(localStorage.getItem(orderKey) || "[]");
     localStorage.setItem(orderKey, JSON.stringify([newOrder, ...currentOrders]));
-    
+
+    // Push "Order Placed" notification
+    const notifKey = `${userEmail}_notifications`;
+    const notifs = JSON.parse(localStorage.getItem(notifKey) || "[]");
+    notifs.unshift({
+      id: Date.now(),
+      title: "📦 Order Placed!",
+      message: `Your order for ${finalMaterialType} (${quantity} ${unit}) has been submitted. Awaiting confirmation.`,
+      time: new Date().toLocaleTimeString(),
+      read: false
+    });
+    localStorage.setItem(notifKey, JSON.stringify(notifs));
+
+    // Simulate order acceptance notification after 8 seconds
+    setTimeout(() => {
+      const latestNotifs = JSON.parse(localStorage.getItem(notifKey) || "[]");
+      const companies = ["EcoSteel Corp", "PolyNext Industries", "GreenMetal Recyclers", "Symbiox Verified Supplier"];
+      const acceptedBy = companies[Math.floor(Math.random() * companies.length)];
+      latestNotifs.unshift({
+        id: Date.now() + 1,
+        title: "✅ Order Accepted!",
+        message: `${acceptedBy} has accepted your order for ${finalMaterialType}. They will contact you at your registered email shortly.`,
+        time: new Date().toLocaleTimeString(),
+        read: false
+      });
+      localStorage.setItem(notifKey, JSON.stringify(latestNotifs));
+    }, 8000);
+
     showToast("✅ Order submitted successfully!");
     
     // Automatically redirect to home page (dashboard) after a brief delay
@@ -126,16 +155,16 @@ export default function Order() {
         <div className="aw-container">
           <div className="aw-layout-grid">
             {/* Column 1: Order Form */}
-            <div className="aw-card" style={{ margin: 0, animationDelay: '0.1s' }}>
-              <div className="aw-badge">
+            <div className="aw-card stagger-1" style={{ margin: 0 }}>
+              <div className="aw-badge stagger-1">
                 <span className="aw-badge__dot" />
                 SYMBIOX Marketplace
               </div>
 
-              <h2 className="aw-title">
+              <h2 className="aw-title stagger-1">
                 Order <span className="aw-title--accent">Materials</span>
               </h2>
-              <p className="aw-subtitle">Request industrial waste for your business</p>
+              <p className="aw-subtitle stagger-1">Request industrial waste for your business</p>
 
               {/* Material Type */}
               <div className="aw-field">
@@ -145,7 +174,7 @@ export default function Order() {
                   <select
                     className="aw-select"
                     value={materialType}
-                    onChange={(e) => setMaterialType(e.target.value)}
+                    onChange={(e) => { setMaterialType(e.target.value); setOtherMaterialType(""); }}
                   >
                     <option value="" disabled>Select material type</option>
                     {MATERIALS.map((t) => (
@@ -154,6 +183,18 @@ export default function Order() {
                   </select>
                   <span className="aw-chevron">▾</span>
                 </div>
+                {materialType === "Other" && (
+                  <div className="aw-input-wrap aw-other-wrap">
+                    <span className="aw-icon">✏️</span>
+                    <input
+                      className="aw-input"
+                      type="text"
+                      placeholder="Please specify the material type…"
+                      value={otherMaterialType}
+                      onChange={(e) => setOtherMaterialType(e.target.value)}
+                    />
+                  </div>
+                )}
               </div>
 
               {/* Quantity */}
@@ -233,7 +274,7 @@ export default function Order() {
             </div>
 
             {/* Column 2: Order History */}
-            <div className="aw-history-section" style={{ marginTop: 0, animationDelay: '0.3s' }}>
+            <div className="aw-history-section stagger-2" style={{ marginTop: 0 }}>
               <h3 className="aw-history-title">
                 <span>📋</span> Your Order Details
               </h3>

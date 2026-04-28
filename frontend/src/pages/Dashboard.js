@@ -22,16 +22,96 @@ export default function Dashboard() {
   ];
 
   useEffect(() => {
-    // Load user-specific listings
-    const userListings = JSON.parse(localStorage.getItem(`${userEmail}_listings`) || "[]");
-    setItems([...userListings, ...defaultItems]);
+    // Waste type → image mapping
+    const imageMap = {
+      copper: "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?auto=format&fit=crop&w=600&q=80",
+      metal: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=600&q=80",
+      steel: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=600&q=80",
+      aluminum: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80",
+      plastic: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&q=80",
+      electronic: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80",
+      pcb: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80",
+      glass: "https://images.unsplash.com/photo-1536939459926-301728717817?auto=format&fit=crop&w=600&q=80",
+      paper: "https://images.unsplash.com/photo-1603484477859-abe6a73f9366?auto=format&fit=crop&w=600&q=80",
+      cardboard: "https://images.unsplash.com/photo-1603484477859-abe6a73f9366?auto=format&fit=crop&w=600&q=80",
+      chemical: "https://images.unsplash.com/photo-1603126857599-f6e157fa2fe6?auto=format&fit=crop&w=600&q=80",
+      textile: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&q=80",
+      rubber: "https://images.unsplash.com/photo-1558618047-f8e3d19f4e96?auto=format&fit=crop&w=600&q=80",
+      wood: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=600&q=80",
+      default: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?auto=format&fit=crop&w=600&q=80"
+    };
 
-    // Simulate real-time stats
-    setStats({
-      waste: 1240 + (userListings.length * 50),
-      revenue: 4500,
-      co2: 320 + (userListings.length * 15)
-    });
+    const getImage = (type = "") => {
+      const t = type.toLowerCase();
+      for (const [key, url] of Object.entries(imageMap)) {
+        if (t.includes(key)) return url;
+      }
+      return imageMap.default;
+    };
+
+    // Load user-specific listings and assign images where missing
+    const userListings = JSON.parse(localStorage.getItem(`${userEmail}_listings`) || "[]");
+    const normalizedListings = userListings.map(item => ({
+      ...item,
+      image: item.image || getImage(item.type || item.wasteType),
+      qty: item.qty || item.quantity || "N/A",
+      location: item.location || item.loc || "N/A"
+    }));
+
+    const allItems = [...normalizedListings, ...defaultItems];
+    setItems(allItems);
+
+    // CO2 Factors (kg saved per kg of material)
+    const co2Factors = {
+      metal: 4.0,
+      copper: 4.5,
+      aluminum: 3.8,
+      plastic: 1.5,
+      paper: 0.9,
+      cardboard: 0.8,
+      glass: 0.3,
+      electronic: 2.5,
+      pcb: 3.0,
+      other: 1.0
+    };
+
+    const calculateStats = () => {
+      let totalWaste = 0;
+      let totalCO2 = 0;
+
+      allItems.forEach(item => {
+        // Parse quantity (e.g., "2.4 tonnes" or "850 kg")
+        const qtyValue = parseFloat(item.qty || item.quantity || 0);
+        const qtyLower = (item.qty || item.quantity || "").toLowerCase();
+        
+        let weightInKg = qtyValue;
+        if (qtyLower.includes('tonne')) weightInKg = qtyValue * 1000;
+        else if (qtyLower.includes('unit')) weightInKg = qtyValue * 0.5; // Estimated avg unit weight
+
+        totalWaste += weightInKg;
+
+        // Determine factor based on material type
+        const typeLower = item.type.toLowerCase();
+        let factor = co2Factors.other;
+        
+        for (const [key, val] of Object.entries(co2Factors)) {
+          if (typeLower.includes(key)) {
+            factor = val;
+            break;
+          }
+        }
+
+        totalCO2 += weightInKg * factor;
+      });
+
+      return {
+        waste: Math.round(totalWaste),
+        revenue: 4500 + (userListings.length * 200), // Simulated revenue growth
+        co2: Math.round(totalCO2)
+      };
+    };
+
+    setStats(calculateStats());
   }, [userEmail]);
 
   const handleOrder = (item) => {
@@ -84,7 +164,7 @@ export default function Dashboard() {
       <Sidebar />
       <div className="main-content">
         <div className="content-wrapper">
-          <div className="dashboard-header">
+          <div className="dashboard-header stagger-1">
             <h2>Dashboard</h2>
             
             <div className="header-actions">
@@ -107,15 +187,15 @@ export default function Dashboard() {
           </div>
 
           <div className="cards">
-            <div className="card">
+            <div className="card stagger-1" onClick={() => navigate('/analytics')} style={{ cursor: 'pointer' }}>
               <h3>{stats.waste.toLocaleString()} kg</h3>
               <p>Waste Listed</p>
             </div>
-            <div className="card">
+            <div className="card stagger-2" onClick={() => navigate('/analytics')} style={{ cursor: 'pointer' }}>
               <h3>${stats.revenue.toLocaleString()}</h3>
               <p>Revenue</p>
             </div>
-            <div className="card">
+            <div className="card stagger-3" onClick={() => navigate('/analytics')} style={{ cursor: 'pointer' }}>
               <h3>{stats.co2.toLocaleString()} kg</h3>
               <p>CO₂ Saved</p>
             </div>
@@ -131,8 +211,8 @@ export default function Dashboard() {
           </div>
 
           <div className="search-list">
-            {(isSearching ? results : items.slice(0, 4)).map((item) => (
-              <div key={item.id} className="search-card">
+            {(isSearching ? results : items.slice(0, 4)).map((item, index) => (
+              <div key={item.id} className={`search-card stagger-${(index % 4) + 1}`}>
                 <img 
                   src={item.image} 
                   alt={item.type} 
@@ -161,15 +241,15 @@ export default function Dashboard() {
                 </div>
               </div>
             ))}
-            
-            {isSearching && results.length === 0 && (
-              <div style={{ width: '100%', textAlign: 'center', padding: '60px', color: '#94a3b8' }}>
-                <span style={{ fontSize: '48px', display: 'block', marginBottom: '16px' }}>🔍</span>
-                <p>No results found for "{searchTerm}".</p>
-                <p style={{ fontSize: '13px', marginTop: '8px' }}>Try searching for "Copper", "Plastic", or "Mumbai".</p>
-              </div>
-            )}
           </div>
+
+          {isSearching && results.length === 0 && (
+            <div style={{ width: '100%', textAlign: 'center', padding: '60px', color: '#94a3b8' }} className="fade-in">
+              <span style={{ fontSize: '48px', display: 'block', marginBottom: '16px' }}>🔍</span>
+              <p>No results found for "{searchTerm}".</p>
+              <p style={{ fontSize: '13px', marginTop: '8px' }}>Try searching for "Copper", "Plastic", or "Mumbai".</p>
+            </div>
+          )}
         </div>
 
       </div>

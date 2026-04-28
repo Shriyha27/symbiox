@@ -5,21 +5,24 @@ export default function Navbar() {
   const [show, setShow] = useState(false);
 
   const logout = () => {
-    localStorage.removeItem("token");
+    localStorage.clear();
     window.location.href = "/";
   };
 
-  const userName = localStorage.getItem("userName") || "Guest";
+  const userEmail = localStorage.getItem("userEmail") || "guest";
+  const profileKey = `${userEmail}_profile`;
+  const profile = JSON.parse(localStorage.getItem(profileKey) || "{}");
+  const userName = profile.companyName || profile.email || "Guest";
 
   return (
     <div className="navbar">
       <div className="profile" onClick={() => setShow(!show)} style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
         <img
-          src="https://i.pravatar.cc/40"
+          src={profile.avatarUrl || "https://i.pravatar.cc/40"}
           alt="profile"
-          style={{ borderRadius: '50%' }}
+          style={{ borderRadius: '50%', width: '32px', height: '32px', objectFit: 'cover' }}
         />
-        <span style={{ fontWeight: '500', color: '#333' }}>{userName}</span>
+        <span style={{ fontWeight: '500', color: 'white' }}>{userName}</span>
       </div>
 
       {show && (

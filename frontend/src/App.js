@@ -29,6 +29,7 @@ export default function App() {
         <Route path="/market" element={<Market />} />
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/addwaste" element={<AddWaste />} />
       </Routes>
       <AIAssistant />
     </BrowserRouter>

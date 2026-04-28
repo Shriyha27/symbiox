@@ -24,11 +24,18 @@ export default function Login() {
         const res = await API.post("/users/login", { email, password });
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("userEmail", email);
-        if (res.data.companyName) {
-          localStorage.setItem("userName", res.data.companyName);
-        } else {
-          localStorage.setItem("userName", res.data.email);
-        }
+        
+        // Initialize or update scoped profile with server-side info if available
+        const profileKey = `${email}_profile`;
+        const existingProfile = JSON.parse(localStorage.getItem(profileKey) || "{}");
+        const updatedProfile = {
+          ...existingProfile,
+          companyName: res.data.companyName || existingProfile.companyName || "",
+          email: email
+        };
+        localStorage.setItem(profileKey, JSON.stringify(updatedProfile));
+        
+        localStorage.setItem("userName", updatedProfile.companyName || email);
       } else {
         await API.post("/users/register", {
           email,

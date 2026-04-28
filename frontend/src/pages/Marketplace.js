@@ -21,12 +21,12 @@ export default function Market(){
     <div className="container">
       <h2>Marketplace</h2>
 
-      <button className="button" onClick={search}>
+      <button className="button stagger-1" onClick={search}>
         Find Matches
       </button>
 
       {data.map((x,i)=>(
-        <div key={i} className="card">
+        <div key={i} className={`card stagger-${(i % 5) + 2}`}>
           <h3>{x.wasteType}</h3>
           <p>{x.quantity}</p>
           <p>{x.distance} km</p>

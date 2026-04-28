@@ -547,3 +547,310 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
+
+/* ---------- "Other" text box ---------- */
+.aw-other-wrap {
+  margin-top: 10px;
+  animation: aw-fadeIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.aw-other-wrap .aw-input {
+  border-color: rgba(74, 222, 128, 0.35);
+  background: rgba(74, 222, 128, 0.05);
+}
+.aw-other-wrap .aw-input:focus {
+  border-color: rgba(74, 222, 128, 0.6);
+  background: rgba(74, 222, 128, 0.09);
+  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.12);
+}
+
+/* ---------- Section dividers ---------- */
+.aw-section-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 28px 0 18px;
+}
+.aw-section-divider::before,
+.aw-section-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+}
+.aw-section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(74, 222, 128, 0.7);
+  white-space: nowrap;
+}
+
+/* ---------- File upload zone ---------- */
+.aw-upload-zone {
+  border: 2px dashed rgba(74, 222, 128, 0.25);
+  border-radius: 16px;
+  padding: 32px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.25s, background 0.25s, transform 0.2s;
+  background: rgba(255, 255, 255, 0.02);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.aw-upload-zone:hover {
+  border-color: rgba(74, 222, 128, 0.55);
+  background: rgba(74, 222, 128, 0.05);
+  transform: translateY(-1px);
+}
+.aw-upload-zone--filled {
+  border-color: rgba(74, 222, 128, 0.5);
+  background: rgba(74, 222, 128, 0.06);
+  padding: 16px 20px;
+  flex-direction: row;
+}
+.aw-upload-icon {
+  font-size: 28px;
+  display: block;
+}
+.aw-upload-text {
+  font-size: 13.5px;
+  color: #fff;
+  font-weight: 500;
+  margin: 0;
+}
+.aw-upload-hint {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.35);
+  margin: 0;
+}
+
+/* File preview row */
+.aw-upload-preview {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  text-align: left;
+}
+.aw-upload-file-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+.aw-upload-file-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.aw-upload-file-name {
+  font-size: 13px;
+  color: #fff;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.aw-upload-file-size {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+}
+.aw-upload-remove {
+  flex-shrink: 0;
+  background: rgba(255, 80, 80, 0.15);
+  border: 1px solid rgba(255, 80, 80, 0.3);
+  color: #f87171;
+  border-radius: 8px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  padding: 0;
+}
+.aw-upload-remove:hover {
+  background: rgba(255, 80, 80, 0.3);
+  color: #fff;
+}
+
+/* ========================================================================= */
+/* COMPANY DETAIL MODAL                                                        */
+/* ========================================================================= */
+
+.sales-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.2s ease both;
+}
+
+.sales-modal {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 36px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(34,197,94,0.1);
+  position: relative;
+  animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.sales-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  transition: background 0.2s, color 0.2s;
+}
+
+.sales-modal-close:hover {
+  background: rgba(255, 80, 80, 0.15);
+  color: #f87171;
+}
+
+/* ========================================================================= */
+/* NOTIFICATION BELL & PANEL                                                   */
+/* ========================================================================= */
+
+.notif-bell-wrap {
+  position: relative;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 10px;
+  transition: background 0.2s;
+}
+
+.notif-bell-wrap:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.notif-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: #ef4444;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 99px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  border: 2px solid #0f172a;
+  animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.notif-panel {
+  position: absolute;
+  bottom: 70px;
+  left: 0;
+  width: 300px;
+  background: #1e293b;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+  overflow: hidden;
+  animation: slideUp 0.25s cubic-bezier(0.2, 0, 0.2, 1) both;
+}
+
+.notif-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.notif-panel-header h4 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.notif-mark-read {
+  background: none;
+  border: none;
+  color: #22c55e;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+
+.notif-list {
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.notif-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.2s;
+}
+
+.notif-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.notif-item--unread {
+  border-left: 3px solid #22c55e;
+  background: rgba(34, 197, 94, 0.04);
+}
+
+.notif-item__title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin-bottom: 3px;
+}
+
+.notif-item__msg {
+  font-size: 12px;
+  color: #94a3b8;
+  line-height: 1.4;
+}
+
+.notif-item__time {
+  font-size: 10px;
+  color: #475569;
+  margin-top: 4px;
+}
+
+.notif-empty {
+  padding: 32px 16px;
+  text-align: center;
+  color: #475569;
+  font-size: 13px;
+}
+
